@@ -1,54 +1,81 @@
 package com.vzurauskas.advent.day1;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public final class CalibrationLine {
+    private static final Map<String, Integer> wordToNumberMap = Map.of(
+        "zero", 0,
+        "one", 1,
+        "two", 2,
+        "three", 3,
+        "four", 4,
+        "five", 5,
+        "six", 6,
+        "seven", 7,
+        "eight", 8,
+        "nine", 9
+    );
     private final String line;
+    private final First first;
+    private final Last last;
 
     public CalibrationLine(String line) {
         this.line = line;
+        this.first = new First();
+        this.last = new Last();
     }
 
     public int value() {
-        List<String> chars = withNumbersFixed().chars()
-            .filter(Character::isDigit)
-            .mapToObj(c -> String.valueOf((char) c))
-            .map(String::valueOf)
-            .collect(Collectors.toList());
-        String first = chars.get(0);
-        String last = chars.get(chars.size() - 1);
-        return Integer.parseInt(first + last);
+        Stream.of(
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+        ).forEach(number -> {
+            if (line.contains(number)) {
+                first.propose(line.indexOf(number), number);
+                last.propose(line.lastIndexOf(number), number);
+            }
+        });
+        return Integer.parseInt(first.number() + last.number());
     }
 
-    private String withNumbersFixed() {
-        String previous = line;
-        String replaced = withFirstReplaced(previous);
-        while (!previous.equals(replaced)) {
-            previous = replaced;
-            replaced = withFirstReplaced(previous);
+    private final class First {
+        private int position = Integer.MAX_VALUE;
+        private String number;
+
+        void propose(int position, String number) {
+            if (position < this.position) {
+                this.position = position;
+                this.number = number;
+            }
         }
-        return replaced;
+
+        public String number() {
+            return String.valueOf(toInt(number));
+        }
     }
 
-    private static String withFirstReplaced(String line) {
-        List<ReplacementCandidate> candidates = Stream.of(
-            new ReplacementCandidate(line, "one", 1),
-            new ReplacementCandidate(line, "two", 2),
-            new ReplacementCandidate(line, "three", 3),
-            new ReplacementCandidate(line, "four", 4),
-            new ReplacementCandidate(line, "five", 5),
-            new ReplacementCandidate(line, "six", 6),
-            new ReplacementCandidate(line, "seven", 7),
-            new ReplacementCandidate(line, "eight", 8),
-            new ReplacementCandidate(line, "nine", 9)
-        )
-            .filter(candidate -> line.contains(candidate.word()))
-            .collect(Collectors.toList());
-        return candidates.isEmpty()
-            ? line
-            : Collections.max(candidates).apply();
+    private final class Last {
+        private int position = Integer.MIN_VALUE;
+        private String number;
+
+        void propose(int position, String number) {
+            if (position > this.position) {
+                this.position = position;
+                this.number = number;
+            }
+        }
+
+        public String number() {
+            return String.valueOf(toInt(number));
+        }
+    }
+
+    private int toInt(String number) {
+        if (number.matches("-?\\d+")) {
+            return Integer.parseInt(number);
+        } else {
+            return wordToNumberMap.get(number);
+        }
     }
 }

@@ -59,4 +59,9 @@ final class CalibrationLineTest {
     void decodesLineWithWords7() {
         assertEquals(76, new CalibrationLine("7pqrstsixteen").value());
     }
+
+    @Test
+    void decodesLineWithWords01() {
+        assertEquals(48, new CalibrationLine("4eight5mjlkzrgnmlnmxntqmtlxmqlkjccttcpmgznfouroneightk").value());
+    }
 }
