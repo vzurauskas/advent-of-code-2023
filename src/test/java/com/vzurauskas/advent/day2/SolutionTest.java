@@ -1,4 +1,4 @@
-package com.vzurauskas.advent.day1;
+package com.vzurauskas.advent.day2;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,6 @@ import org.junit.jupiter.api.Test;
 final class SolutionTest {
     @Test
     void findsCorrectSolution() {
-        assertEquals("54249", new Solution().toString());
+        assertEquals("67363", new Solution().toString());
     }
 }
