@@ -63,11 +63,15 @@ public final class Grid {
         }
         String number = at(start, y).literal();
         int i = start + 1;
-        while (at(i, y).isDigit()) {
+        while (i < width() && at(i, y).isDigit()) {
             number += at(i, y).literal();
             i++;
         }
         return Optional.of(new Number(start, y, Integer.parseInt(number)));
+    }
+
+    private int width() {
+        return grid.get(0).size();
     }
 
     public Set<? extends Element> numbersAround(int x, int y) {
