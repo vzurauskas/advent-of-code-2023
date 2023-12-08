@@ -1,7 +1,5 @@
 package com.vzurauskas.advent.day3;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -9,11 +7,13 @@ import java.util.Set;
 public final class Symbol implements Element {
     private final int x;
     private final int y;
+    private final Grid grid;
     private final Set<Number> numbers;
 
-    public Symbol(int x, int y) {
+    public Symbol(int x, int y, Grid grid) {
         this.x = x;
         this.y = y;
+        this.grid = grid;
         this.numbers = new HashSet<>();
     }
 
@@ -23,8 +23,8 @@ public final class Symbol implements Element {
     }
 
     @Override
-    public Iterable<Element> children() {
-        return new ArrayList<>(numbers);
+    public Set<? extends Element> children() {
+        return grid.numbersAround(x, y);
     }
 
     @Override

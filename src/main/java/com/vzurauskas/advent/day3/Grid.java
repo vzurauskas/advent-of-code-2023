@@ -3,7 +3,9 @@ package com.vzurauskas.advent.day3;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public final class Grid {
     private final List<List<Position>> grid;
@@ -34,11 +36,11 @@ public final class Grid {
             for (int x = 0; x < row.size(); x++) {
                 Position position = row.get(x);
                 if (position.isSymbol()) {
-                    Symbol symbol = new Symbol(x, y);
+                    Symbol symbol = new Symbol(x, y, this);
                     position.setElement(symbol);
                     symbols.add(symbol);
                 } else if (position.isDigit()) {
-                    Number number = numberAt(x, y);
+                    Number number = numberAt(x, y).get();
                     position.setElement(number);
                     numbers.add(number);
                 }
@@ -51,7 +53,10 @@ public final class Grid {
         return grid.get(y).get(x);
     }
 
-    public Number numberAt(int x, int y) {
+    public Optional<Number> numberAt(int x, int y) {
+        if (!at(x, y).isDigit()) {
+            return Optional.empty();
+        }
         int start = x;
         while (start > 0 && at(start - 1, y).isDigit()) {
             start--;
@@ -62,6 +67,26 @@ public final class Grid {
             number += at(i, y).literal();
             i++;
         }
-        return new Number(start, y, Integer.parseInt(number));
+        return Optional.of(new Number(start, y, Integer.parseInt(number)));
+    }
+
+    public Set<? extends Element> numbersAround(int x, int y) {
+        HashSet<Number> numbers = new HashSet<>();
+        numberAt(x - 1, y).ifPresent(numbers::add);
+        numberAt(x - 1, y + 1).ifPresent(numbers::add);
+        numberAt(x, y + 1).ifPresent(numbers::add);
+        numberAt(x + 1, y + 1).ifPresent(numbers::add);
+        numberAt(x + 1, y).ifPresent(numbers::add);
+        numberAt(x + 1, y - 1).ifPresent(numbers::add);
+        numberAt(x, y - 1).ifPresent(numbers::add);
+        numberAt(x - 1, y - 1).ifPresent(numbers::add);
+        return numbers;
+    }
+
+    public int sumOfNumbers() {
+        return symbols.stream()
+            .flatMap(symbol -> symbol.children().stream())
+            .mapToInt(Element::value)
+            .sum();
     }
 }

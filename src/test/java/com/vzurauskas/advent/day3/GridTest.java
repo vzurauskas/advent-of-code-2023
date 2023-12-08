@@ -30,7 +30,38 @@ final class GridTest {
                     ).value()
                 )
                 .enrich()
-                .numberAt(7, 2).value()
+                .numberAt(7, 2).get().value()
+        );
+    }
+
+    @Test
+    void numbersAroundWork() {
+        assertEquals(
+            2,
+            new Grid()
+                .fill(
+                    new LinesOfFile(
+                        "com\\vzurauskas\\advent\\day3\\simple.txt"
+                    ).value()
+                )
+                .enrich()
+                .numbersAround(3, 1)
+                .size()
+        );
+    }
+
+    @Test
+    void sumIsCorrect() {
+        assertEquals(
+            4361,
+            new Grid()
+                .fill(
+                    new LinesOfFile(
+                        "com\\vzurauskas\\advent\\day3\\simple.txt"
+                    ).value()
+                )
+                .enrich()
+                .sumOfNumbers()
         );
     }
 }

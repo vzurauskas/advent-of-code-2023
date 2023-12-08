@@ -2,6 +2,7 @@ package com.vzurauskas.advent.day3;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 public final class Number implements Element {
     private final int startX;
@@ -20,8 +21,8 @@ public final class Number implements Element {
     }
 
     @Override
-    public Iterable<Element> children() {
-        return Collections.emptyList();
+    public Set<? extends Element> children() {
+        return Collections.emptySet();
     }
 
     @Override
