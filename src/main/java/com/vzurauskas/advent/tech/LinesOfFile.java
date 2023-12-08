@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public final class LinesOfFile implements Lines {
     }
 
     @Override
-    public Collection<String> value() {
+    public List<String> value() {
         return lines.get();
     }
 }
