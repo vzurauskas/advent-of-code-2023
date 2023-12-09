@@ -27,6 +27,18 @@ public final class Symbol implements Element {
         return grid.numbersAround(x, y);
     }
 
+    public int gearRatio() {
+        if (!grid.at(x, y).literal().equals("*")) {
+            return 0;
+        }
+        var numbers = children();
+        if (numbers.size() != 2) {
+            return 0;
+        }
+        var it = numbers.iterator();
+        return it.next().value() * it.next().value();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

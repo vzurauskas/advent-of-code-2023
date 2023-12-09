@@ -17,6 +17,6 @@ public final class Solution {
 
     @Override
     public String toString() {
-        return String.valueOf(grid.sumOfNumbers());
+        return String.valueOf(grid.sumOfGearRatios());
     }
 }

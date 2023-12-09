@@ -64,4 +64,19 @@ final class GridTest {
                 .sumOfNumbers()
         );
     }
+
+    @Test
+    void gearRatioIsCorrect() {
+        assertEquals(
+            467835,
+            new Grid()
+                .fill(
+                    new LinesOfFile(
+                        "com\\vzurauskas\\advent\\day3\\simple.txt"
+                    ).value()
+                )
+                .enrich()
+                .sumOfGearRatios()
+        );
+    }
 }

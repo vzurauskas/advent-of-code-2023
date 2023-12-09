@@ -93,4 +93,10 @@ public final class Grid {
             .mapToInt(Element::value)
             .sum();
     }
+
+    public int sumOfGearRatios() {
+        return symbols.stream()
+            .mapToInt(Symbol::gearRatio)
+            .sum();
+    }
 }

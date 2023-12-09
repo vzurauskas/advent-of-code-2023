@@ -6,6 +6,6 @@ import org.junit.jupiter.api.Test;
 final class SolutionTest {
     @Test
     void findsCorrectSolution() {
-        assertEquals("538046", new Solution().toString());
+        assertEquals("81709807", new Solution().toString());
     }
 }
