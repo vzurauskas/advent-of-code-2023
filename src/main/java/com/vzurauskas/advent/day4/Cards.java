@@ -1,10 +1,8 @@
 package com.vzurauskas.advent.day4;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public final class Cards {
     private final List<Card> cards;
@@ -19,29 +17,40 @@ public final class Cards {
             .sum();
     }
 
-    public int totalCards() {
-        return cards.size();
-    }
-
-    public Cards scratch() {
-        for (int i = 0; i < cards.size(); i++) {
-            cards.addAll(wonFor(cards.get(i)));
-            cards.sort(Comparator.naturalOrder());
+    public int scratch() {
+        List<CardStack> stacks = cards.stream()
+            .map(c -> new CardStack(c.id(), 1, c.matches()))
+            .collect(Collectors.toList());
+        for (int i = 0; i < stacks.size(); i++) {
+            CardStack stack = stacks.get(i);
+            for (int j = i + 1; j <= i + stack.matches(); j++) {
+                stacks.get(j).copy(stack.count());
+            }
         }
-        return this;
+        return stacks.stream().mapToInt(CardStack::count).sum();
     }
 
-    private Collection<Card> wonFor(Card card) {
-        Collection<Card> won = new ArrayList<>();
-        for (int i = card.id() + 1; i <= card.id() + card.matches(); i++) {
-            fromInitial(i).map(Card::copy).ifPresent(won::add);
+    private static final class CardStack {
+        private final int id;
+        private int count;
+        private final int matches;
+
+        CardStack(int id, int count, int matches) {
+            this.id = id;
+            this.count = count;
+            this.matches = matches;
         }
-        return won;
-    }
 
-    private Optional<Card> fromInitial(int id) {
-        return new ArrayList<>(cards).stream()
-            .filter(card -> card.id() == id)
-            .findAny();
+        public int matches() {
+            return matches;
+        }
+
+        void copy(int times) {
+            count += times;
+        }
+
+        public int count() {
+            return count;
+        }
     }
 }

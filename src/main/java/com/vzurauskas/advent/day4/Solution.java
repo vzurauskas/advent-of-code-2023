@@ -18,7 +18,6 @@ public final class Solution {
 
     @Override
     public String toString() {
-        cards.scratch();
-        return String.valueOf(cards.totalCards());
+        return String.valueOf(cards.scratch());
     }
 }

@@ -18,7 +18,7 @@ final class CardsTest {
                     new Card("Card 3: 1 2 3 | 99 98 97 96 95 94 93"), // 4
                     new Card("Card 4: 1 2 3 | 99 98 97 96 95 94 93") // 1
                 )
-            ).scratch().totalCards()
+            ).scratch()
         );
     }
 
@@ -35,7 +35,7 @@ final class CardsTest {
                     new Card("Card 5: 21 53 59 44 | 99 98 97 96 95 94 93"), // 1
                     new Card("Card 6: 21 53 59 44 | 99 98 97 96 95 94 93")  // 1
                 )
-            ).scratch().totalCards()
+            ).scratch()
         );
     }
 
@@ -52,7 +52,7 @@ final class CardsTest {
                     new Card("Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36"), // 14
                     new Card("Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11") // 1
                 )
-            ).scratch().totalCards()
+            ).scratch()
         );
     }
 }
